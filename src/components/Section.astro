@@ -1,0 +1,47 @@
+---
+interface Props {
+  /** id de la section */
+  id: string;
+  /** url de la video */
+  video?: string;
+}
+
+const { id, video } = Astro.props;
+---
+
+{
+  video ? (
+    <section
+      id={id}
+      class="relative h-screen flex flex-col items-center justify-center text-center text-white py-0 px-3"
+    >
+      <div class="absolute h-full left-0 overflow-hidden top-0 w-full">
+        <video
+          class="min-w-full min-h-full absolute object-cover"
+          autoplay=""
+          muted=""
+          loop=""
+          src={video}
+        />
+      </div>
+      <div class="absolute w-full h-screen flex justify-center items-center flex-col">
+        <div class="bg-black/50 p-3 rounded-lg font-courgette shadow-hero shadow-yellow-300 mx-2">
+          {/* <h1 class="text-3xl sm:text-6xl text-yellow-300">
+            Bienvenue chez l'Oriflamme
+          </h1>
+          <h2 class="text-2xl sm:text-4xl text-yellow-400">
+            Rôtisserie Sandwichs Maison
+          </h2>
+          <p class="text-xl sm:text-2xl">
+            Nous ouvrons dans 09 heures, 24 minutes et 16 secondes
+          </p> */}
+          <slot />
+        </div>
+      </div>
+    </section>
+  ) : (
+    <section id={id}>
+      <slot />
+    </section>
+  )
+}
