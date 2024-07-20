@@ -1,0 +1,23 @@
+---
+import Section from "./Section.astro";
+
+// Hero Page
+// [x] Vidéo plein écran autoplay non muet
+// [ ] Ajouter bouton pour réguler le volume
+// [ ] Ajouter bouton pour jouer/pauser
+// [ ] Animer le texte pour afficher des infos
+---
+
+<Section
+  id="hero"
+  video="https://forth-oriflamme.netlify.app/assets/hero-47ead8d9.mp4"
+  controls
+>
+  <h1 class="text-3xl sm:text-6xl text-yellow-300">Hero Page</h1>
+  <h2 class="text-2xl sm:text-4xl text-yellow-400">
+    Rôtisserie Sandwichs Maison
+  </h2>
+  <p class="text-xl sm:text-2xl">
+    Nous ouvrons dans 09 heures, 24 minutes et 16 secondes
+  </p>
+</Section>
