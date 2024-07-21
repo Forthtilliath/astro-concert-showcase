@@ -4,6 +4,7 @@ import ButtonControl from "../ButtonControl.astro";
 type SectionBaseProps = {
   /** Section id */
   id: string;
+  class: string;
 };
 type SectionWithVideoProps = SectionBaseProps & {
   /** Video url */
@@ -23,7 +24,7 @@ type SectionWithoutVideoProps = SectionBaseProps & {
 };
 type Props = SectionWithVideoProps | SectionWithoutVideoProps;
 
-const { id, video, screen, controls } = Astro.props;
+const { id, video, screen, controls, class: className } = Astro.props;
 
 // tw variant
 // section => bg
@@ -33,7 +34,10 @@ const { id, video, screen, controls } = Astro.props;
   video ? (
     <section
       id={id}
-      class="relative h-screen flex flex-col items-center justify-center text-center text-white py-0 px-3"
+      class:list={[
+        "relative h-screen flex flex-col items-center justify-center text-center text-white py-0 px-3",
+        className,
+      ]}
     >
       <div class="absolute h-full left-0 overflow-hidden top-0 w-full">
         <video
@@ -66,10 +70,7 @@ const { id, video, screen, controls } = Astro.props;
   ) : (
     <section
       id={id}
-      class:list={[
-        "flex justify-center items-center",
-        { "min-h-screen": screen },
-      ]}
+      class:list={["container py-20", { "min-h-screen": screen }, className]}
     >
       <slot />
     </section>
