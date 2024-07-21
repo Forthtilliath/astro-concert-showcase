@@ -6,7 +6,9 @@ import {
   PresentationSection,
   ProgramSection,
   ReviewsSection,
+  SeparatorSection,
 } from "../components/sections";
+import { separatorBackgrounds } from "@assets/separators";
 ---
 
 <script is:inline>
@@ -37,8 +39,11 @@ import {
   <main class="w-full flex flex-col">
     <HeroSection />
     <PresentationSection />
+    <SeparatorSection img={separatorBackgrounds[0]} filter={30} />
     <ProgramSection />
+    <SeparatorSection img={separatorBackgrounds[1]} filter={30} />
     <ReviewsSection />
+    <SeparatorSection img={separatorBackgrounds[2]} filter={30} />
     <ContactSection />
   </main>
 </Layout>

@@ -1,0 +1,39 @@
+---
+type Props = {
+  class?: string;
+  /** Height of the section */
+  height?: string;
+  /** Image to display in background */
+  img: ImageMetadata;
+  /** Value between 0 and 100 */
+  filter?: number;
+};
+
+const { class: className, height = "100px", img, filter = 70 } = Astro.props;
+
+const opacity = filter / 100;
+const background = `url(${img.src})`;
+---
+
+<section class:list={[className]}>
+  <div class="inner"></div>
+</section>
+
+<style define:vars={{ height, background, opacity }}>
+  section {
+    height: var(--height);
+
+    background: var(--background);
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+  }
+
+  .inner {
+    background: rgba(0, 0, 0, var(--opacity))
+      url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAYAAACddGYaAAAAD0lEQVQIW2NkQABjRmQOAAM+AGkQsDBSAAAAAElFTkSuQmCC)
+      repeat;
+
+    min-height: var(--height);
+  }
+</style>

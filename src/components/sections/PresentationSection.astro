@@ -1,5 +1,7 @@
 ---
+import { Image } from "astro:assets";
 import Section from "./Section.astro";
+import imageConcert from "@assets/chorale-concert.webp";
 
 // Presentation Section
 // [ ] Présentation de la chorale
@@ -88,5 +90,5 @@ Plus qu'une parenthèse le temps d'un concert, le bonheur partagé reste gravé 
     </p>
   </div>
 
-  <img src="/images/chorale-concert.jpg" alt="La chorale en concert" />
+  <Image src={imageConcert} alt="La chorale en concert" />
 </Section>
