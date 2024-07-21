@@ -1,15 +1,3 @@
-// initial "Pause" | "Play"
-type State = "Pause" | "Play";
-type Volume = 0 | 1;
-
-const path = {
-  play: "M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80v352c0 17.4 9.4 33.4 24.5 41.9S58.2 482 73 473l288-176c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z",
-  pause:
-    "M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zm-32-320v128c0 17.7-14.3 32-32 32s-32-14.3-32-32V192c0-17.7 14.3-32 32-32s32 14.3 32 32zm128 0v128c0 17.7-14.3 32-32 32s-32-14.3-32-32V192c0-17.7 14.3-32 32-32s32 14.3 32 32z",
-  mute: "",
-  unmute: "",
-};
-
 type Selectors = {
   video: HTMLVideoElement | string;
   btnState: HTMLButtonElement | string;
@@ -17,53 +5,83 @@ type Selectors = {
 };
 
 type Options = {
-  initialState?: State;
+  /** If true, initialize to muted, otherwise unmuted. By default, ``true``. */
+  muted: boolean;
+  /** Initial volume. By default, ``0.5`` */
+  volume: number;
+  /** Callback when video is played. */
+  onPlay?: () => void;
+  /** Callback when video is paused. */
+  onPause?: () => void;
+  /** Content of the play button. */
+  playContent: string;
+  /** Content of the pause button. */
+  pauseContent: string;
+  /** Content of the mute button. */
+  // muteContent: string;
+  /** Content of the unmute button. */
+  // unmuteContent: string;
 };
 
-export function useControlsVideo(selectors: Selectors, options: Options = {}) {
+export function useControlsVideo(
+  selectors: Selectors,
+  videoOptions: Partial<Options> = {}
+) {
   const video = getElement(selectors.video);
   const btnState = getElement(selectors.btnState);
-  let state = options.initialState || "Pause";
+
+  const options: Options = Object.assign(
+    {
+      volume: 0.5,
+      muted: true,
+      playContent: "⏸️",
+      pauseContent: "▶️",
+    } satisfies Options,
+    videoOptions
+  );
+
+  video.volume = options.volume;
+  video.muted = options.muted;
+
+  let paused = video.paused;
+
+  video.addEventListener("playing", onPlay);
+  video.addEventListener("pause", onPause);
+  video.addEventListener("ended", onPause);
 
   function init() {
-    switch (state) {
-      case "Play":
-        btnState.innerText = "Pause";
-        break;
-      case "Pause":
-        btnState.innerText = "Play";
-        break;
+    if (paused) {
+      btnState.innerText = options.playContent;
+      return;
     }
-
-    btnState.addEventListener("click", () => {
-      switch (state) {
-        case "Play":
-          pause();
-          break;
-        case "Pause":
-          play();
-          break;
-      }
-    });
+    btnState.innerText = options.pauseContent;
   }
 
-  function play() {
-    state = "Play";
-    btnState.innerText = "Pause";
-    video.play();
-  }
-
-  function pause() {
-    state = "Pause";
-    btnState.innerText = "Play";
+  btnState.addEventListener("click", () => {
+    if (paused) {
+      video.play();
+      return;
+    }
     video.pause();
+  });
+
+  function onPlay() {
+    paused = false;
+    btnState.innerHTML = options.playContent;
+    options.onPlay?.();
+  }
+
+  function onPause() {
+    paused = true;
+    btnState.innerHTML = options.pauseContent;
+    options.onPause?.();
   }
 
   init();
 
   return {
-    play,
-    pause,
+    play: onPlay,
+    pause: onPause,
   };
 }
 
@@ -85,15 +103,3 @@ function assertsElementsExist<T extends HTMLElement>(
     throw new Error("Element not found");
   }
 }
-
-// export function useControlsVideo(selector: string) {
-//   const video = document.querySelector<HTMLVideoElement>(selector);
-//   return {
-//     play: () => {
-//       video?.play();
-//     },
-//     pause: () => {
-//       video?.pause();
-//     },
-//   };
-// }
