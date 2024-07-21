@@ -6,11 +6,11 @@ export default {
     container: {
       center: true,
       padding: {
-        DEFAULT: '1rem',
-        sm: '2rem',
-        lg: '4rem',
-        xl: '5rem',
-        '2xl': '6rem',
+        DEFAULT: "1rem",
+        sm: "2rem",
+        lg: "4rem",
+        xl: "5rem",
+        "2xl": "6rem",
       },
       screens: {
         "2xl": "1400px",
@@ -22,6 +22,7 @@ export default {
       },
       fontFamily: {
         courgette: ["Courgette", "cursive"],
+        playwrite: ["PlaywriteCU", "sans-serif"],
       },
       height: {
         screen: "100dvh",
@@ -38,14 +39,14 @@ export default {
         ring: "hsl(var(--ring) / <alpha-value>)",
         background: "hsl(var(--background) / <alpha-value>)",
         foreground: "hsl(var(--foreground) / <alpha-value>)",
-				primary: {
-					DEFAULT: 'hsl(var(--primary) / <alpha-value>)',
-					foreground: 'hsl(var(--primary-foreground) / <alpha-value>)'
-				},
-				secondary: {
-					DEFAULT: 'hsl(var(--secondary) / <alpha-value>)',
-					foreground: 'hsl(var(--secondary-foreground) / <alpha-value>)'
-				},
+        primary: {
+          DEFAULT: "hsl(var(--primary) / <alpha-value>)",
+          foreground: "hsl(var(--primary-foreground) / <alpha-value>)",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary) / <alpha-value>)",
+          foreground: "hsl(var(--secondary-foreground) / <alpha-value>)",
+        },
       },
     },
   },
