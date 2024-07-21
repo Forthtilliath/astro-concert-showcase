@@ -49,12 +49,15 @@ const { id, video, screen, controls } = Astro.props;
         </div>
       </div>
       {controls && (
-        <div class="absolute top-3 right-3">
+        <div class="absolute top-3 right-3 flex gap-1">
           <button
             data-toggle-video-state-button
-            class="bg-slate-950 text-white opacity-80 hover:opacity-100 transition-opacity rounded-full border-2 border-slate-950"
+            class="bg-slate-950 text-white opacity-80 hover:opacity-100 transition-opacity rounded-full border-2 border-slate-950 w-8 h-8"
           />
-          <button>Volume</button>
+          <button
+            data-toggle-video-mute-button
+            class="bg-slate-950 text-white opacity-80 hover:opacity-100 transition-opacity rounded-full border-2 border-slate-950 w-8 h-8 p-1"
+          />
         </div>
       )}
     </section>
@@ -78,6 +81,7 @@ const { id, video, screen, controls } = Astro.props;
     {
       video: "[data-hero-video]",
       btnState: "[data-toggle-video-state-button]",
+      btnMute: "[data-toggle-video-mute-button]",
     },
     {
       // muted: false,
@@ -87,16 +91,37 @@ const { id, video, screen, controls } = Astro.props;
       onPause: () => {
         console.log("pause");
       },
+      onMute: () => {
+        console.log("mute");
+      },
+      onUnmute: () => {
+        console.log("unmute");
+      },
+      onVolumeChange: () => {
+        console.log("volume change");
+      },
       playContent: `
-<svg fill="currentColor" stroke-width="0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="2rem" class="overflow-visible text-current aspect-square">
+<svg fill="currentColor" stroke-width="0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="overflow-visible text-current w-full aspect-square">
   <path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zm-32-320v128c0 17.7-14.3 32-32 32s-32-14.3-32-32V192c0-17.7 14.3-32 32-32s32 14.3 32 32zm128 0v128c0 17.7-14.3 32-32 32s-32-14.3-32-32V192c0-17.7 14.3-32 32-32s32 14.3 32 32z" />
-</svg>
-      `,
+</svg>`,
       pauseContent: `
-<svg fill="currentColor" stroke-width="0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="2rem" class="overflow-visible text-current aspect-square">
+<svg fill="currentColor" stroke-width="0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="overflow-visible text-current w-full aspect-square">
   <path d="M0 256a256 256 0 1 1 512 0 256 256 0 1 1-512 0zm188.3-108.9c-7.6 4.2-12.3 12.3-12.3 20.9v176c0 8.7 4.7 16.7 12.3 20.9s16.8 4.1 24.3-.5l144-88c7.1-4.4 11.5-12.1 11.5-20.5s-4.4-16.1-11.5-20.5l-144-88c-7.4-4.5-16.7-4.7-24.3-.5z" />
-</svg>
-      `,
+</svg>`,
+      muteContent: `
+<svg fill="currentColor" stroke-width="0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="overflow-visible text-current w-full aspect-square">
+  <path fill="currentColor" d="M15 9.674V11h-1.326L12 9.326 10.326 11H9V9.674L10.674 8 9 6.326V5h1.326L12 6.674 13.674 5H15v1.326L13.326 8 15 9.674zM6.5 15a.504.504 0 0 1-.354-.146L2.292 11H.499a.5.5 0 0 1-.5-.5v-5a.5.5 0 0 1 .5-.5h1.793l3.854-3.854A.499.499 0 0 1 7 1.5v13a.5.5 0 0 1-.5.5z" />
+</svg>`,
+      unmuteContent: [`
+<svg fill="currentColor" stroke-width="0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="overflow-visible text-current w-full aspect-square">
+  <path fill="currentColor" d="M8.578 11.578a.75.75 0 0 1-.53-1.281 3.254 3.254 0 0 0 0-4.596.75.75 0 1 1 1.061-1.061 4.756 4.756 0 0 1 0 6.718.748.748 0 0 1-.53.22zM6.5 15a.504.504 0 0 1-.354-.146L2.292 11H.499a.5.5 0 0 1-.5-.5v-5a.5.5 0 0 1 .5-.5h1.793l3.854-3.854A.499.499 0 0 1 7 1.5v13a.5.5 0 0 1-.5.5z" />
+</svg>`, `
+<svg fill="currentColor" stroke-width="0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="overflow-visible text-current w-full aspect-square">
+  <path fill="currentColor" d="M11.243 12.993a.75.75 0 0 1-.53-1.281 5.256 5.256 0 0 0 0-7.425.75.75 0 1 1 1.061-1.061c1.275 1.275 1.977 2.97 1.977 4.773s-.702 3.498-1.977 4.773a.748.748 0 0 1-.53.22zm-2.665-1.415a.75.75 0 0 1-.53-1.281 3.254 3.254 0 0 0 0-4.596.75.75 0 1 1 1.061-1.061 4.756 4.756 0 0 1 0 6.718.748.748 0 0 1-.53.22zM6.5 15a.504.504 0 0 1-.354-.146L2.292 11H.499a.5.5 0 0 1-.5-.5v-5a.5.5 0 0 1 .5-.5h1.793l3.854-3.854A.499.499 0 0 1 7 1.5v13a.5.5 0 0 1-.5.5z" />
+</svg>`, `
+<svg fill="currentColor" stroke-width="0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 16" class="overflow-visible text-current w-full aspect-square">
+  <path fill="currentColor" d="M13.907 14.407a.75.75 0 0 1-.53-1.281c1.369-1.369 2.123-3.19 2.123-5.127s-.754-3.757-2.123-5.127a.75.75 0 1 1 1.061-1.061c1.653 1.653 2.563 3.85 2.563 6.187s-.91 4.534-2.563 6.187a.748.748 0 0 1-.53.22zm-2.664-1.414a.75.75 0 0 1-.53-1.281 5.256 5.256 0 0 0 0-7.425.75.75 0 1 1 1.061-1.061c1.275 1.275 1.977 2.97 1.977 4.773s-.702 3.498-1.977 4.773a.748.748 0 0 1-.53.22zm-2.665-1.415a.75.75 0 0 1-.53-1.281 3.254 3.254 0 0 0 0-4.596.75.75 0 1 1 1.061-1.061 4.756 4.756 0 0 1 0 6.718.748.748 0 0 1-.53.22zM6.5 15a.504.504 0 0 1-.354-.146L2.292 11H.499a.5.5 0 0 1-.5-.5v-5a.5.5 0 0 1 .5-.5h1.793l3.854-3.854A.499.499 0 0 1 7 1.5v13a.5.5 0 0 1-.5.5z" />
+  </svg>`]
     }
   );
 </script>

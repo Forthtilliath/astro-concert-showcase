@@ -1,7 +1,9 @@
 type Selectors = {
   video: HTMLVideoElement | string;
+  // TODO: Make optional
   btnState: HTMLButtonElement | string;
-  // btnVolume: HTMLButtonElement | string;
+  // TODO: Make optional
+  btnMute: HTMLButtonElement | string;
 };
 
 type Options = {
@@ -13,14 +15,20 @@ type Options = {
   onPlay?: () => void;
   /** Callback when video is paused. */
   onPause?: () => void;
+  /** Callback when video is muted. */
+  onMute?: () => void;
+  /** Callback when video is unmuted. */
+  onUnmute?: () => void;
+  /** Callback when video volume changes. */
+  onVolumeChange?: () => void;
   /** Content of the play button. */
   playContent: string;
   /** Content of the pause button. */
   pauseContent: string;
   /** Content of the mute button. */
-  // muteContent: string;
+  muteContent: string;
   /** Content of the unmute button. */
-  // unmuteContent: string;
+  unmuteContent: string | string[];
 };
 
 export function useControlsVideo(
@@ -29,6 +37,7 @@ export function useControlsVideo(
 ) {
   const video = getElement(selectors.video);
   const btnState = getElement(selectors.btnState);
+  const btnMute = getElement(selectors.btnMute);
 
   const options: Options = Object.assign(
     {
@@ -36,6 +45,8 @@ export function useControlsVideo(
       muted: true,
       playContent: "⏸️",
       pauseContent: "▶️",
+      muteContent: "🔇",
+      unmuteContent: ["🔉", "🔊"],
     } satisfies Options,
     videoOptions
   );
@@ -44,10 +55,12 @@ export function useControlsVideo(
   video.muted = options.muted;
 
   let paused = video.paused;
+  let volume = video.volume;
 
   video.addEventListener("playing", onPlay);
   video.addEventListener("pause", onPause);
   video.addEventListener("ended", onPause);
+  video.addEventListener("volumechange", onVolumeChange);
 
   function init() {
     if (paused) {
@@ -65,6 +78,12 @@ export function useControlsVideo(
     video.pause();
   });
 
+  btnMute.addEventListener("click", () => {
+    video.muted = !video.muted;
+    if (video.muted) options.onMute?.();
+    else options.onUnmute?.();
+  });
+
   function onPlay() {
     paused = false;
     btnState.innerHTML = options.playContent;
@@ -77,12 +96,26 @@ export function useControlsVideo(
     options.onPause?.();
   }
 
-  init();
+  function onVolumeChange() {
+    options.onVolumeChange?.();
 
-  return {
-    play: onPlay,
-    pause: onPause,
-  };
+    if (video.muted || video.volume === 0) {
+      btnMute.innerHTML = options.muteContent;
+      return;
+    }
+
+    if (typeof options.unmuteContent === "string") {
+      btnMute.innerHTML = options.unmuteContent;
+      return;
+    }
+
+    if (Array.isArray(options.unmuteContent)) {
+      const index = findIndexByVolume(video.volume, options.unmuteContent);
+      btnMute.innerHTML = options.unmuteContent[index];
+    }
+  }
+
+  init();
 }
 
 function getElement<T extends HTMLElement>(selector: T | string): T {
@@ -102,4 +135,19 @@ function assertsElementsExist<T extends HTMLElement>(
   if (!element) {
     throw new Error("Element not found");
   }
+}
+
+function findIndexByVolume(volume: number, array: string[]): number {
+  let min = 0;
+  for (let index = 0; index <= array.length; index++) {
+    const max = (1 / array.length) * (index + 1);
+
+    if (volume >= min && volume < max) {
+      return index;
+    }
+
+    min = max;
+  }
+
+  return array.length - 1;
 }
