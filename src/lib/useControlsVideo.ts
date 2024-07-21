@@ -62,12 +62,17 @@ export function useControlsVideo(
   video.addEventListener("ended", onPause);
   video.addEventListener("volumechange", onVolumeChange);
 
+  init();
+
   function init() {
+    paused = video.paused;
+    volume = video.volume;
+
     if (paused) {
-      btnState.innerText = options.playContent;
+      btnState.innerHTML = options.pauseContent;
       return;
     }
-    btnState.innerText = options.pauseContent;
+    btnState.innerHTML = options.playContent;
   }
 
   btnState.addEventListener("click", () => {
@@ -114,8 +119,6 @@ export function useControlsVideo(
       btnMute.innerHTML = options.unmuteContent[index];
     }
   }
-
-  init();
 }
 
 function getElement<T extends HTMLElement>(selector: T | string): T {

@@ -1,4 +1,6 @@
 ---
+import ButtonControl from "../ButtonControl.astro";
+
 type SectionBaseProps = {
   /** Section id */
   id: string;
@@ -50,13 +52,13 @@ const { id, video, screen, controls } = Astro.props;
       </div>
       {controls && (
         <div class="absolute top-3 right-3 flex gap-1">
-          <button
+          <ButtonControl
             data-toggle-video-state-button
-            class="bg-slate-950 text-white opacity-60 hover:opacity-100 transition-opacity rounded-full border-2 border-slate-950 w-8 h-8"
+            aria-label="Play/Pause"
           />
-          <button
+          <ButtonControl
             data-toggle-video-mute-button
-            class="bg-slate-950 text-white opacity-60 hover:opacity-100 transition-opacity rounded-full border-2 border-slate-950 w-8 h-8 p-1"
+            aria-label="Mute/Unmute"
           />
         </div>
       )}
@@ -75,7 +77,10 @@ const { id, video, screen, controls } = Astro.props;
 }
 
 <script>
-  import { useControlsVideo } from "../../lib/useControlsVideo";
+  import { useControlsVideo } from "@lib/useControlsVideo";
+  import { importSvg } from "@lib/importSvg";
+
+  // https://codepen.io/forthtilliath/pen/KKjzREb?editors=1010
 
   useControlsVideo(
     {
@@ -100,28 +105,14 @@ const { id, video, screen, controls } = Astro.props;
       onVolumeChange: () => {
         console.log("volume change");
       },
-      playContent: `
-<svg fill="currentColor" stroke-width="0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="overflow-visible text-current w-full aspect-square p-1">
-  <path d="M48 64C21.5 64 0 85.5 0 112v288c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm192 0c-26.5 0-48 21.5-48 48v288c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48h-32z" />
-  </svg>`,
-      pauseContent: `
-<svg fill="currentColor" stroke-width="0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" class="overflow-visible text-current w-full aspect-square p-1">
-  <path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80v352c0 17.4 9.4 33.4 24.5 41.9S58.2 482 73 473l288-176c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z" />
-</svg>`,
-      muteContent: `
-<svg fill="currentColor" stroke-width="0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="overflow-visible text-current w-full aspect-square">
-  <path fill="currentColor" d="M15 9.674V11h-1.326L12 9.326 10.326 11H9V9.674L10.674 8 9 6.326V5h1.326L12 6.674 13.674 5H15v1.326L13.326 8 15 9.674zM6.5 15a.504.504 0 0 1-.354-.146L2.292 11H.499a.5.5 0 0 1-.5-.5v-5a.5.5 0 0 1 .5-.5h1.793l3.854-3.854A.499.499 0 0 1 7 1.5v13a.5.5 0 0 1-.5.5z" />
-</svg>`,
-      unmuteContent: [`
-<svg fill="currentColor" stroke-width="0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="overflow-visible text-current w-full aspect-square">
-  <path fill="currentColor" d="M8.578 11.578a.75.75 0 0 1-.53-1.281 3.254 3.254 0 0 0 0-4.596.75.75 0 1 1 1.061-1.061 4.756 4.756 0 0 1 0 6.718.748.748 0 0 1-.53.22zM6.5 15a.504.504 0 0 1-.354-.146L2.292 11H.499a.5.5 0 0 1-.5-.5v-5a.5.5 0 0 1 .5-.5h1.793l3.854-3.854A.499.499 0 0 1 7 1.5v13a.5.5 0 0 1-.5.5z" />
-</svg>`, `
-<svg fill="currentColor" stroke-width="0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="overflow-visible text-current w-full aspect-square">
-  <path fill="currentColor" d="M11.243 12.993a.75.75 0 0 1-.53-1.281 5.256 5.256 0 0 0 0-7.425.75.75 0 1 1 1.061-1.061c1.275 1.275 1.977 2.97 1.977 4.773s-.702 3.498-1.977 4.773a.748.748 0 0 1-.53.22zm-2.665-1.415a.75.75 0 0 1-.53-1.281 3.254 3.254 0 0 0 0-4.596.75.75 0 1 1 1.061-1.061 4.756 4.756 0 0 1 0 6.718.748.748 0 0 1-.53.22zM6.5 15a.504.504 0 0 1-.354-.146L2.292 11H.499a.5.5 0 0 1-.5-.5v-5a.5.5 0 0 1 .5-.5h1.793l3.854-3.854A.499.499 0 0 1 7 1.5v13a.5.5 0 0 1-.5.5z" />
-</svg>`, `
-<svg fill="currentColor" stroke-width="0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 16" class="overflow-visible text-current w-full aspect-square">
-  <path fill="currentColor" d="M13.907 14.407a.75.75 0 0 1-.53-1.281c1.369-1.369 2.123-3.19 2.123-5.127s-.754-3.757-2.123-5.127a.75.75 0 1 1 1.061-1.061c1.653 1.653 2.563 3.85 2.563 6.187s-.91 4.534-2.563 6.187a.748.748 0 0 1-.53.22zm-2.664-1.414a.75.75 0 0 1-.53-1.281 5.256 5.256 0 0 0 0-7.425.75.75 0 1 1 1.061-1.061c1.275 1.275 1.977 2.97 1.977 4.773s-.702 3.498-1.977 4.773a.748.748 0 0 1-.53.22zm-2.665-1.415a.75.75 0 0 1-.53-1.281 3.254 3.254 0 0 0 0-4.596.75.75 0 1 1 1.061-1.061 4.756 4.756 0 0 1 0 6.718.748.748 0 0 1-.53.22zM6.5 15a.504.504 0 0 1-.354-.146L2.292 11H.499a.5.5 0 0 1-.5-.5v-5a.5.5 0 0 1 .5-.5h1.793l3.854-3.854A.499.499 0 0 1 7 1.5v13a.5.5 0 0 1-.5.5z" />
-  </svg>`]
+      playContent: await importSvg("pause"),
+      pauseContent: await importSvg("play"),
+      muteContent: await importSvg("mute"),
+      unmuteContent: [
+        await importSvg("volume-low"),
+        await importSvg("volume-medium"),
+        await importSvg("volume-high"),
+      ],
     }
   );
 </script>
