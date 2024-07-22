@@ -38,6 +38,7 @@ const { id, video, screen, controls, class: className } = Astro.props;
         "relative h-screen flex flex-col items-center justify-center text-center text-white py-0 px-3",
         className,
       ]}
+      data-section
     >
       <div class="absolute h-full left-0 overflow-hidden top-0 w-full">
         <video
@@ -71,6 +72,7 @@ const { id, video, screen, controls, class: className } = Astro.props;
     <section
       id={id}
       class:list={["container py-20", { "min-h-screen": screen }, className]}
+      data-section
     >
       <slot />
     </section>

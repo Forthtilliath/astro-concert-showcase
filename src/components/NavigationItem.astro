@@ -1,28 +1,27 @@
 ---
 type Props = {
-  href: string
-  label: string
-  active?: boolean
-}
+  href: string;
+  label: string;
+  active?: boolean;
+};
 
-const { href, label, active } = Astro.props
+const { href, label } = Astro.props;
 ---
 
 <li>
   <a
     class:list={[
-      'group relative block w-5 aspect-square text-foreground text-base',
-      {'hover:after:shadow-[inset_0_0_5px_1px]': !active },
-      { 'after:shadow-[inset_0_0_0_6px]': active },
-      "after:absolute after:inset-0 after:w-full after:aspect-square after:rounded-full after:border-2 after:content-[''] after:shadow-foreground",
+      'group relative block aspect-square w-5 text-base text-foreground',
+      "after:absolute after:inset-0 after:aspect-square after:w-full after:rounded-full after:border-2 after:border-foreground/80 after:shadow-foreground after:content-['']",
     ]}
     href={href}
+    data-navigation-item
   >
     <span
       class:list={[
         'absolute right-4 top-1/2 -translate-y-1/2',
-        'text-base leading-none text-nowrap',
-        'bg-background mr-4 p-2 rounded border border-foreground',
+        'text-nowrap text-base leading-none',
+        'mr-4 rounded border border-foreground bg-background p-2',
         'opacity-0 transition-opacity duration-500 group-hover:opacity-100',
       ]}
     >
@@ -30,3 +29,12 @@ const { href, label, active } = Astro.props
     </span>
   </a>
 </li>
+
+<style>
+  li a.active::after {
+    @apply shadow-[inset_0_0_0_6px];
+  }
+  li a:not(.active):hover::after {
+    @apply shadow-[inset_0_0_5px_1px];
+  }
+</style>

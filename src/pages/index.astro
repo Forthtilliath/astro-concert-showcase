@@ -9,7 +9,6 @@ import {
   SeparatorSection,
 } from "../components/sections";
 import { separatorBackgrounds } from "@assets/separators";
-import ThemeToggle from "@/components/ThemeToggle.astro";
 import Navigation from "@/components/Navigation.astro";
 import GallerySection from "@/components/sections/GallerySection.astro";
 ---
@@ -19,7 +18,6 @@ import GallerySection from "@/components/sections/GallerySection.astro";
   description="Concert du Choeur des Anjoués"
 >
   <main class="w-full flex flex-col">
-    <ThemeToggle />
     <HeroSection />
     <PresentationSection />
     <SeparatorSection img={separatorBackgrounds[0]} filter={30} height="150px" />
