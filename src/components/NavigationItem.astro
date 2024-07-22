@@ -13,8 +13,8 @@ const { href, label, active } = Astro.props
     class:list={[
       'group relative block w-5 aspect-square text-white text-base',
       {'hover:after:shadow-[inset_0_0_5px_1px]': !active },
-      { 'after:shadow-[inset_0_0_0_5px]': active },
-      "after:absolute after:inset-0 after:w-full after:aspect-square after:rounded-full after:border after:content-['']",
+      { 'after:shadow-[inset_0_0_0_6px]': active },
+      "after:absolute after:inset-0 after:w-full after:aspect-square after:rounded-full after:border-2 after:content-['']",
     ]}
     href={href}
   >
@@ -22,7 +22,7 @@ const { href, label, active } = Astro.props
       class:list={[
         'absolute right-4 top-1/2 -translate-y-1/2',
         'text-base leading-none text-nowrap',
-        'bg-background mr-4 p-2 rounded',
+        'bg-background mr-4 p-2 rounded border border-white',
         'opacity-0 transition-opacity duration-500 group-hover:opacity-100',
       ]}
     >

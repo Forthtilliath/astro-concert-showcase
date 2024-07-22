@@ -11,6 +11,7 @@ import {
 import { separatorBackgrounds } from "@assets/separators";
 import ThemeToggle from "@/components/ThemeToggle.astro";
 import Navigation from "@/components/Navigation.astro";
+import GallerySection from "@/components/sections/GallerySection.astro";
 ---
 
 <BaseLayout
@@ -21,11 +22,13 @@ import Navigation from "@/components/Navigation.astro";
     <ThemeToggle />
     <HeroSection />
     <PresentationSection />
-    <SeparatorSection img={separatorBackgrounds[0]} filter={30} />
+    <SeparatorSection img={separatorBackgrounds[0]} filter={30} height="150px" />
+    <GallerySection />
+    <SeparatorSection img={separatorBackgrounds[1]} filter={30} height="150px" />
     <ProgramSection />
-    <SeparatorSection img={separatorBackgrounds[1]} filter={30} />
+    <SeparatorSection img={separatorBackgrounds[2]} filter={30} height="150px" />
     <ReviewsSection />
-    <SeparatorSection img={separatorBackgrounds[2]} filter={30} />
+    <SeparatorSection img={separatorBackgrounds[3]} filter={30} height="150px" />
     <ContactSection />
     <Navigation />
   </main>

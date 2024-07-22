@@ -3,11 +3,11 @@ import type { GetImageResult } from 'astro';
 
 type Props = {
   class?: string;
-  /** Height of the section */
+  /** Height of the section, default is 100px */
   height?: string;
   /** Image to display in background */
   img: GetImageResult;
-  /** Value between 0 and 100 */
+  /** Value between 0 and 100, default is 70 */
   filter?: number;
 };
 
