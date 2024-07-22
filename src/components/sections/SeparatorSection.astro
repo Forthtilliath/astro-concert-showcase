@@ -1,10 +1,12 @@
 ---
+import type { GetImageResult } from 'astro';
+
 type Props = {
   class?: string;
   /** Height of the section */
   height?: string;
   /** Image to display in background */
-  img: ImageMetadata;
+  img: GetImageResult;
   /** Value between 0 and 100 */
   filter?: number;
 };
