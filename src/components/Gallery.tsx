@@ -7,11 +7,15 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 
-export default function Gallery() {
+type Props = {
+  items: number[]
+}
+
+export default function Gallery({items}: Props) {
   return (
     <Carousel className="w-full max-w-xs">
       <CarouselContent>
-        {Array.from({ length: 5 }).map((_, index) => (
+        {items.map((_, index) => (
           <CarouselItem key={index}>
             <div className="p-1">
               <Card>

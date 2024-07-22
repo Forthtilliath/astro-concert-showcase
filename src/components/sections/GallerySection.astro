@@ -3,6 +3,6 @@ import Section from './Section.astro';
 import Gallery from '../Gallery';
 ---
 
-<Section id="presentation" screen>
-  <Gallery client:load />
+<Section id="gallery" screen>
+  <Gallery items={Array.from({ length: 5 })} client:load />
 </Section>
