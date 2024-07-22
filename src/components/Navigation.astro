@@ -1,0 +1,18 @@
+---
+import NavigationItem from './NavigationItem.astro';
+---
+
+<ul
+  class:list={[
+    'fixed right-4 top-1/2 z-10 -translate-y-1/2',
+    'space-y-4 rounded bg-background p-2 shadow-hero shadow-primary',
+    'opacity-30 transition-opacity hover:opacity-100'
+  ]}
+>
+  <NavigationItem href="#hero" label="Accueil" active />
+  <NavigationItem href="#presentation" label="Qui nous sommes ?" />
+  <NavigationItem href="#gallery" label="Galerie photos" />
+  <NavigationItem href="#program" label="Programme du concert" />
+  <NavigationItem href="#reviews" label="Avis des spectateurs" />
+  <NavigationItem href="#contact" label="Nous contacter" />
+</ul>

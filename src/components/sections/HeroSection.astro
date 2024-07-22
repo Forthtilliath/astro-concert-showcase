@@ -1,5 +1,6 @@
 ---
 import Section from "./Section.astro";
+import video from "@/assets/video.mp4"
 
 // Hero Page
 // [x] Vidéo plein écran autoplay non muet
@@ -10,7 +11,7 @@ import Section from "./Section.astro";
 
 <Section
   id="hero"
-  video="https://videos.pexels.com/video-files/3918375/3918375-uhd_2560_1440_30fps.mp4"
+  video={video}
   controls
 >
   <h1 class="text-3xl sm:text-6xl text-yellow-300">Hero Page</h1>

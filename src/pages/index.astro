@@ -1,5 +1,5 @@
 ---
-import Layout from "../layouts/BaseLayout.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
 import {
   ContactSection,
   HeroSection,
@@ -10,9 +10,10 @@ import {
 } from "../components/sections";
 import { separatorBackgrounds } from "@assets/separators";
 import ThemeToggle from "@/components/ThemeToggle.astro";
+import Navigation from "@/components/Navigation.astro";
 ---
 
-<Layout
+<BaseLayout
   title="Concert du Choeur des Anjoués"
   description="Concert du Choeur des Anjoués"
 >
@@ -26,5 +27,6 @@ import ThemeToggle from "@/components/ThemeToggle.astro";
     <ReviewsSection />
     <SeparatorSection img={separatorBackgrounds[2]} filter={30} />
     <ContactSection />
+    <Navigation />
   </main>
-</Layout>
+</BaseLayout>

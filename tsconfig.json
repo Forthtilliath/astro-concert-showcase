@@ -10,6 +10,8 @@
       "@layouts/*": ["src/layouts/*"],
       "@lib/*": ["src/lib/*"],
       "@styles/*": ["src/styles/*"],
-    }
+    },
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
   }
 }
